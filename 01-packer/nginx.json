@@ -1,0 +1,35 @@
+{
+  "variables": {
+    "triton_account": "{{ env `SDC_ACCOUNT` }}",
+    "triton_key_id": "{{ env `SDC_KEY_ID` }}",
+    "triton_url": "{{ env `SDC_URL` }}",
+    "message": "Built by Packer!"
+  },
+  "builders": [
+    {
+      "type": "triton",
+      "triton_account": "{{ user `triton_account` }}",
+      "triton_key_id": "{{ user `triton_key_id` }}",
+      "triton_url": "{{ user `triton_url` }}",
+      "source_machine_image_filter": {
+        "name": "ubuntu-16.04",
+        "type": "lx-dataset",
+        "most_recent": true
+      },
+      "ssh_username": "root",
+      "source_machine_package": "g4-general-8G",
+      "image_name": "nginx",
+      "image_version": "1.0.0"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get -qq update",
+        "apt-get -qq install nginx",
+        "echo '{{ user `message` }}' > /var/www/html/index.html"
+      ]
+    }
+  ]
+}
