@@ -1,0 +1,6 @@
+connections = {{ keyOrDefault "app1/config/connections" "1" }}
+
+servers = [
+{{ range service "dnsmasq" }}
+  "server {{ .Address }}:{{ .Port }}",{{ end }}
+]
