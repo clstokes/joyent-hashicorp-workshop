@@ -1,0 +1,3 @@
+connections = {{ keyOrDefault "app1/config/connections" "1" }}
+{{ with secret "secret/app1/app" }}
+secret = {{ .Data.mysecret }}{{ end }}
